@@ -1,0 +1,28 @@
+version: 2
+
+sources:
+  - name: thelook_ecommerce
+    description: "Raw data from theLook ecommerce public dataset"
+    database: bigquery-public-data
+    schema: thelook_ecommerce
+    tables:
+      - name: users
+        description: "Customer profile information"
+      - name: orders
+        description: "Main order headers"
+      - name: order_items
+        description: "Individual items within an order"
+      - name: products
+        description: "Product catalog details"
+models:
+  - name: stg_customers
+    description: "Staging table for user data from theLook ecommerce"
+    columns:
+      - name: customer_id
+        description: "Primary key of the customer"
+        tests:
+          - unique    -- 验证重复值 (Duplicate check)
+          - not_null  -- 验证空值 (Null check)
+      - name: email
+        tests:
+          - not_null
